@@ -15,7 +15,7 @@ User.post("/signup",async(req,res)=>{
 
         let Is_User_Exist = await UserModel.find({Email});
         if(Is_User_Exist.length>0){
-            res.send("User with this email id already exist!");
+            res.json("User with this email id already exist!");
         }else{
            bcrypt.hash(Password,5,async(err,hash)=>{
             if(err){
@@ -23,12 +23,12 @@ User.post("/signup",async(req,res)=>{
             }else{
                 let newuser = new UserModel({UserName,Email,Password:hash});
                 await newuser.save()
-                res.send("User register successfully")
+                res.json("User register successfully")
             }
            })
         }
     }else{
-        res.send("PLease fill all the feilds")
+        res.json("PLease fill all the feilds")
     }
 });
 
@@ -43,14 +43,14 @@ User.post("/login",async(req,res)=>{
                     console.log(err);
                 }else{
                     let token = jwt.sign({UserID:Is_User_Exist[0]._id},"masai");
-                    res.send(token);
+                    res.json(token);
                 }
                })
         }else{
-           res.send("Please Singup first")
+           res.json("Please Singup first")
         }
     }else{
-        res.send("PLease fill all the feilds")
+        res.json("PLease fill all the feilds")
     }
 });
 

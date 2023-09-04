@@ -5,14 +5,14 @@ const note = express.Router();
 note.get("/",async(req,res)=>{
     let userid = req.body.UserID;
     let notes = await NoteModel.find({UserID:userid});
-    res.send(notes);
+    res.json(notes);
 });
 
 note.post("/",async(req,res)=>{
     let {Author,Name,Note,UserID} = req.body;
     let newnote = new NoteModel(req.body);
     await newnote.save();
-    res.send("note saved successfully");
+    res.json("note saved successfully");
 })
 
 note.patch("/:id",async(req,res)=>{
@@ -23,9 +23,9 @@ note.patch("/:id",async(req,res)=>{
     let userID_in_note = notes[0].UserID;
     if(userID_in_note===userID_making_req){
         await NoteModel.findByIdAndUpdate({_id:ID},payload);
-        res.send(`Note having id ${ID} is updated`);
+        res.json(`Note having id ${ID} is updated`);
     }else{
-        res.send("U are not authorized");
+        res.json("U are not authorized");
     }
     
 })
@@ -37,9 +37,9 @@ note.delete("/:id",async(req,res)=>{
     let userID_in_note = notes[0].UserID;
     if(userID_in_note===userID_making_req){
         await NoteModel.findByIdAndDelete({_id:ID});
-        res.send(`Note having id ${ID} is deleted`);
+        res.json(`Note having id ${ID} is deleted`);
     }else{
-        res.send("U are not authorized");
+        res.json("U are not authorized");
     }
     
 })

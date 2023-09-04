@@ -13,7 +13,7 @@ const authenticate = (req,res,next)=>{
         }
        })
     }else{
-        res.send("Please Login first")
+        res.json("Please Login first")
     }
 }
 
